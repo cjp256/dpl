@@ -17,14 +17,14 @@ describe Dpl::Providers::Gcs do
       it { should have_run '[info] Authenticating with service account key file key.json' }
       it { should have_run '[info] $ gcloud auth activate-service-account --key-file=key.json' }
       it { should have_run 'gsutil cp -a "private" -r one gs://bucket/' }
-      it { should have_run 'gsutil cp -a "private" -r two/two gs://bucket/' }
+      it { should have_run 'gsutil cp -a "private" -r two/two gs://bucket/two/' }
       it { should have_run 'mv /tmp/boto.cfg /etc/boto.cfg' }
       it { should have_run_in_order }
       it { should_not have_run 'gsutil cp -r .hidden gs://bucket/' }
     end
 
     describe 'given --upload_dir dir' do
-      it { should have_run 'gsutil cp -a "private" -r one gs://bucket/dir' }
+      it { should have_run 'gsutil cp -a "private" -r one gs://bucket/dir/' }
     end
 
     describe 'given --dot_match' do

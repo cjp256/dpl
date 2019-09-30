@@ -84,7 +84,13 @@ module Dpl
         end
 
         def copy(source)
-          shell :copy, gs_opts: gs_opts(source), source: source
+          to = [target.sub(%r(/$), ''), dirname(source)].join('/')
+          shell :copy, gs_opts: gs_opts(source), source: source, target: to
+        end
+
+        def dirname(path)
+          dir = File.dirname(path)
+          "#{dir}/" unless dir.empty? || dir == '.'
         end
 
         def gs_opts(path)
