@@ -15,7 +15,9 @@ module Dpl
 
       apt 'snapd', 'snap'
 
-      cmds install:        'sudo snap install snapcraft --classic',
+      # update_snapd can be removed when the image is updated with snapd >= 2.40.
+      cmds update_snapd:   'sudo snap install snapd',
+           install:        'sudo snap install snapcraft --classic',
            login:          'echo "%{token}" | snapcraft login --with -',
            deploy:         'snapcraft push %{snap_path} --release=%{channel}'
 
@@ -26,6 +28,7 @@ module Dpl
 
       def install
         return if which 'snapcraft'
+        shell :update_snapd
         shell :install
         ENV['PATH'] += ':/snap/bin'
       end
